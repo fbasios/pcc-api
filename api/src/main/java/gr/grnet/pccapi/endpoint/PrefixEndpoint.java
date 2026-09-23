@@ -55,7 +55,8 @@ public class PrefixEndpoint {
   @APIResponse(
       responseCode = "201",
       description = "Prefix created",
-      content = @Content(schema = @Schema(implementation = PrefixResponseDto.class)))
+      content = @Content(schema = @Schema(
+              implementation = PrefixResponseDto.class)))
   @APIResponse(
           responseCode = "401",
           description = "User has not been authenticated.",
@@ -71,16 +72,20 @@ public class PrefixEndpoint {
   @APIResponse(
       responseCode = "404",
       description = "Resource not found",
-      content = @Content(schema = @Schema(implementation = APIResponseMsg.class)))
+      content = @Content(schema = @Schema(
+              implementation = APIResponseMsg.class)))
   @APIResponse(
       responseCode = "409",
       description = "Prefix already exists",
-      content = @Content(schema = @Schema(implementation = APIResponseMsg.class)))
+      content = @Content(schema = @Schema(
+              implementation = APIResponseMsg.class)))
   @APIResponse(
       responseCode = "500",
       description = "Internal Server Error",
-      content = @Content(schema = @Schema(implementation = APIResponseMsg.class)))
-  public Response create(@Valid PrefixRequestDto prefixRequestDto) {
+      content = @Content(schema = @Schema(
+              implementation = APIResponseMsg.class)))
+  public Response create(
+          @Valid PrefixRequestDto prefixRequestDto) {
 
     var response = prefixService.create(prefixRequestDto);
 
@@ -93,7 +98,8 @@ public class PrefixEndpoint {
   @APIResponse(
       responseCode = "200",
       description = "Prefix updated",
-      content = @Content(schema = @Schema(implementation = PrefixRequestDto.class)))
+      content = @Content(schema = @Schema(
+              implementation = PrefixRequestDto.class)))
   @APIResponse(
           responseCode = "401",
           description = "User has not been authenticated.",
@@ -109,12 +115,16 @@ public class PrefixEndpoint {
   @APIResponse(
       responseCode = "404",
       description = "Prefix not found",
-      content = @Content(schema = @Schema(implementation = APIResponseMsg.class)))
+      content = @Content(schema = @Schema(
+              implementation = APIResponseMsg.class)))
   @APIResponse(
       responseCode = "500",
       description = "Internal Server Error",
-      content = @Content(schema = @Schema(implementation = APIResponseMsg.class)))
-  public Response update(@PathParam("id") int id, @Valid PrefixRequestDto prefixRequestDto) {
+      content = @Content(schema = @Schema(
+              implementation = APIResponseMsg.class)))
+  public Response update(
+          @PathParam("id") int id,
+          @Valid PrefixRequestDto prefixRequestDto) {
 
     return Response.ok(prefixService.update(prefixRequestDto, id)).build();
   }
@@ -140,13 +150,20 @@ public class PrefixEndpoint {
   @APIResponse(
       responseCode = "500",
       description = "Internal Server Error",
-      content = @Content(schema = @Schema(implementation = APIResponseMsg.class)))
+      content = @Content(schema = @Schema(
+              implementation = APIResponseMsg.class)))
   public Response getAllByPageAndSize(
-      @DefaultValue("1") @Min(1) @QueryParam("page") int page,
-      @DefaultValue("10") @Min(1) @Max(100) @QueryParam("size") int size,
+      @DefaultValue("1") @Min(1)
+      @QueryParam("page")
+      int page,
+      @DefaultValue("10") @Min(1) @Max(100)
+      @QueryParam("size")
+      int size,
       @Context UriInfo uriInfo) {
 
-    return Response.ok(prefixService.fetchByPageAndSize(page - 1, size, uriInfo)).build();
+    var prefixes = prefixService.fetchByPageAndSize(page - 1, size, uriInfo);
+
+    return Response.ok(prefixes).build();
   }
 
   @PATCH
@@ -155,7 +172,8 @@ public class PrefixEndpoint {
   @APIResponse(
       responseCode = "200",
       description = "Prefix updated",
-      content = @Content(schema = @Schema(implementation = PrefixResponseDto.class)))
+      content = @Content(schema = @Schema(
+              implementation = PrefixResponseDto.class)))
   @APIResponse(
           responseCode = "401",
           description = "User has not been authenticated.",
@@ -171,14 +189,20 @@ public class PrefixEndpoint {
   @APIResponse(
       responseCode = "404",
       description = "Prefix not found",
-      content = @Content(schema = @Schema(implementation = APIResponseMsg.class)))
+      content = @Content(schema = @Schema(
+              implementation = APIResponseMsg.class)))
   @APIResponse(
       responseCode = "500",
       description = "Internal Server Error",
-      content = @Content(schema = @Schema(implementation = APIResponseMsg.class)))
-  public Response patch(@PathParam("id") int id, @Valid PartialPrefixDto prefixDto) {
+      content = @Content(schema = @Schema(
+              implementation = APIResponseMsg.class)))
+  public Response patch(
+          @PathParam("id") int id,
+          @Valid PartialPrefixDto prefixDto) {
 
-    return Response.ok(prefixService.patchById(id, prefixDto)).build();
+    var prefix = prefixService.patchById(id, prefixDto);
+
+    return Response.ok(prefix).build();
   }
 
   @DELETE

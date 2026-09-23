@@ -71,19 +71,17 @@ public class PrefixService {
 
       var contractType =
           codelistRepository
-              .findByIdAndCategory(
-                  prefixRequestDto.contractTypeId, CodelistCategory.CONTRACT_TYPE.getText())
+              .findByIdAndCategory(prefixRequestDto.contractTypeId, CodelistCategory.CONTRACT_TYPE.getText())
               .orElseThrow(() -> new NotFoundException("Contract Type not found"));
 
       prefix.setContractType(contractType);
     }
-    System.out.println("look up service id: " + prefixRequestDto.lookUpServiceTypeId);
+
     if (prefixRequestDto.lookUpServiceTypeId != null) {
 
       var lookUpServiceType =
           codelistRepository
-              .findByIdAndCategory(
-                  prefixRequestDto.lookUpServiceTypeId, CodelistCategory.LOOKUP_SERVICE_TYPE.getText())
+              .findByIdAndCategory(prefixRequestDto.lookUpServiceTypeId, CodelistCategory.LOOKUP_SERVICE_TYPE.getText())
               .orElseThrow(() -> new NotFoundException("LookUp Service Type not found"));
 
       prefix.setLookUpServiceType(lookUpServiceType);
@@ -151,7 +149,7 @@ public class PrefixService {
             .orElseThrow(() -> new NotFoundException("Prefix not found"));
 
     // check the uniqueness of the provided name
-    if (prefixRepository.existsByName(prefixDto.getName())) {
+    if (prefixDto.getName() != null && prefixRepository.existsByName(prefixDto.getName())) {
 
       var prefixByName = prefixRepository.findByName(prefixDto.getName());
 
@@ -160,9 +158,6 @@ public class PrefixService {
       }
     }
 
-    if (prefixDto.status != null) {
-      prefix.status = Integer.valueOf(prefixDto.status);
-    }
 
     PrefixMapper.INSTANCE.updatePrefixFromDto(prefixDto, prefix);
     // check the existence of the provided provider and update entity on success

@@ -87,4 +87,5 @@ According to [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), the `Unre
 - [#38](https://github.com/ARGOeu/pcc-api/pull/38) PCC-97 Appropriate error on Prefix Update
 - [#57](https://github.com/ARGOeu/pcc-api/pull/57) PCC-124 Fix issue regarding contract_type and lookupservice_type
 - [#74](https://github.com/ARGOeu/pcc-api/pull/74) PCC-165 Handle missing domains cause of failure of EOSC marketplace URL
+- [#95](https://github.com/ARGOeu/pcc-api/pull/95) PCC-181 Make Prefix Fields Optional in Create and Update Operations
 

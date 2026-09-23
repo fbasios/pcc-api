@@ -11,9 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import org.apache.commons.lang3.StringUtils;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 /** Mapper class for converting between {@link Prefix} and {@link PrefixResponseDto}. */
@@ -49,10 +47,16 @@ public interface PrefixMapper {
   @Mapping(target = "name", expression = "java(StringUtils.isNotEmpty(prefixDto.name) ? prefixDto.name : prefix.name)")
   @Mapping(target = "owner", expression = "java(StringUtils.isNotEmpty(prefixDto.owner) ? prefixDto.owner : prefix.owner)")
   @Mapping(target = "usedBy", expression = "java(StringUtils.isNotEmpty(prefixDto.usedBy) ? prefixDto.usedBy : prefix.usedBy)")
-  @Mapping(target = "status", expression = "java(prefixDto.status != null ? Integer.parseInt(prefixDto.status) : prefix.status)")
+  @Mapping(target = "status", expression = "java(prefixDto.status != null ? prefixDto.status : prefix.status)")
+  @Mapping(target = "resolvable", expression = "java(prefixDto.resolvable != null ? prefixDto.resolvable : prefix.resolvable)")
   @Mapping(target = "contactEmail", expression = "java(StringUtils.isNotEmpty(prefixDto.contactEmail) ? prefixDto.contactEmail : prefix.contactEmail)")
   @Mapping(target = "contactName", expression = "java(StringUtils.isNotEmpty(prefixDto.contactName) ? prefixDto.contactName : prefix.contactName)")
   @Mapping(target = "contractEnd", expression = "java(prefixDto.contractEnd != null && StringUtils.isNotEmpty(prefixDto.contractEnd) ? convertToMillis(prefixDto.contractEnd) : prefix.contractEnd)")
+  @Mapping(target = "provider", ignore = true)
+  @Mapping(target = "service", ignore = true)
+  @Mapping(target = "domain", ignore = true)
+  @Mapping(target = "contractType", ignore = true)
+  @Mapping(target = "lookUpServiceType", ignore = true)
   void updatePrefixFromDto(PartialPrefixDto prefixDto, @MappingTarget Prefix prefix);
 
   @Mapping(target = "contractEnd", expression = "java(prefixRequestDto.contractEnd != null && StringUtils.isNotEmpty(prefixRequestDto.contractEnd) ? convertToMillis(prefixRequestDto.contractEnd) : null)")

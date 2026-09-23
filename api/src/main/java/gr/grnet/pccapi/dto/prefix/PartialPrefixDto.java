@@ -50,11 +50,11 @@ public class PartialPrefixDto {
   public String contractEnd;
 
   @Schema(
-          type = SchemaType.STRING,
-          implementation = String.class,
+          type = SchemaType.INTEGER,
+          implementation = Integer.class,
           description = "The status of the prefix.",
           example = "0")
-  public String status;
+  public Integer status;
 
   @Schema(
           type = SchemaType.INTEGER,

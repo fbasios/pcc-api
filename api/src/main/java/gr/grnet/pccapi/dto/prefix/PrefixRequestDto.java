@@ -17,20 +17,20 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Schema(name = "Prefix")
 public class PrefixRequestDto {
 
-  @NotNull
   @Schema(
           type = SchemaType.STRING,
           implementation = String.class,
           description = "The unique name of the prefix.",
           example = "21.T227")
+  @NotNull(message = "Prefix name must not be null.")
   public String name;
 
-  @NotNull
   @Schema(
           type = SchemaType.STRING,
           implementation = String.class,
           description = "The owner of the prefix.",
           example = "GRNET")
+  @NotNull(message = "Prefix owner must not be null.")
   public String owner;
 
   @Schema(
@@ -75,13 +75,13 @@ public class PrefixRequestDto {
   @JsonProperty("domain_id")
   public Integer domainId;
 
-  @NotNull
   @Schema(
           type = SchemaType.INTEGER,
           implementation = Integer.class,
           description = "The unique provider ID to be linked with the prefix.",
           example = "1")
   @JsonProperty("provider_id")
+  @NotNull(message = "Provider ID must not be null.")
   public Integer providerId;
 
   @Schema(
@@ -92,26 +92,26 @@ public class PrefixRequestDto {
   @JsonProperty("resolvable")
   public Boolean resolvable = Boolean.TRUE;
 
-  @NotNull
   @Schema(
           type = SchemaType.STRING,
           implementation = String.class,
           description = "The name of the contact person for the prefix.",
           example = "John Doe")
   @JsonProperty("contact_name")
+  @NotNull(message = "Contact name must not be null.")
   public String contactName;
 
   @Email(
           regexp =
                   "^$|(^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&’*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$)",
           flags = Pattern.Flag.CASE_INSENSITIVE)
-  @NotNull
   @Schema(
           type = SchemaType.STRING,
           implementation = String.class,
           description = "The email address of the contact person for the prefix.",
           example = "contact@example.org")
   @JsonProperty("contact_email")
+  @NotNull(message = "Contact email must not be null.")
   public String contactEmail;
 
   @Schema(

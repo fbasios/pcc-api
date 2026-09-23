@@ -759,4 +759,60 @@ public class PrefixEndpointTest {
     assertEquals(resp.resolvableCount, dto.resolvableCount);
     assertEquals(resp.uncheckedCount, dto.uncheckedCount);
   }
+
+  @Test
+  public void updatePrefixWithoutStatusAndOptionalTypes() {
+
+    var requestBody =
+            new PrefixRequestDto()
+                    .setName("put-optional")
+                    .setOwner("someone")
+                    .setStatus(2)
+                    .setLookUpServiceTypeId(2)
+                    .setContractTypeId(5)
+                    .setDomainId(1)
+                    .setServiceId(1)
+                    .setProviderId(1)
+                    .setContactEmail("test@test.com")
+                    .setContactName("test");
+
+    var created =
+            given()
+                    .header("Authorization", "Bearer " + adminToken)
+                    .contentType(ContentType.JSON)
+                    .body(requestBody)
+                    .post()
+                    .then()
+                    .assertThat()
+                    .statusCode(201)
+                    .extract()
+                    .as(PrefixResponseDto.class);
+
+    var updateRequestBody =
+            new PrefixRequestDto()
+                    .setName("put-optional-updated")
+                    .setOwner("someone updated")
+                    .setDomainId(1)
+                    .setServiceId(1)
+                    .setProviderId(1)
+                    .setContactEmail("updated@test.com")
+                    .setContactName("updated");
+
+    var response =
+            given()
+                    .header("Authorization", "Bearer " + adminToken)
+                    .contentType(ContentType.JSON)
+                    .body(updateRequestBody)
+                    .put("/{id}", created.id)
+                    .then()
+                    .assertThat()
+                    .statusCode(200)
+                    .extract()
+                    .as(PrefixResponseDto.class);
+
+    assertEquals("put-optional-updated", response.getName());
+    assertEquals(null, response.getStatus());
+    assertEquals(null, response.getContractTypeId());
+    assertEquals(null, response.getLookUpServiceTypeId());
+  }
 }
