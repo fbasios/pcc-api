@@ -7,6 +7,7 @@ import gr.grnet.pccapi.dto.prefix.PrefixRequestDto;
 import gr.grnet.pccapi.dto.prefix.PrefixResponseDto;
 import gr.grnet.pccapi.dto.statistic.StatisticsDto;
 import gr.grnet.pccapi.dto.statistic.StatisticsRequestDto;
+import gr.grnet.pccapi.resources.PrefixResource;
 import gr.grnet.pccapi.service.PrefixService;
 import gr.grnet.pccapi.service.StatisticsService;
 import io.quarkus.security.Authenticated;
@@ -19,7 +20,6 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import java.text.ParseException;
 import java.util.List;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -30,6 +30,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.grnet.endpoint.scanner.runtime.ParamRef;
+import org.grnet.endpoint.scanner.runtime.ParamType;
+import org.grnet.endpoint.scanner.runtime.SecuredEndpoint;
 
 @Tag(name = "Prefix")
 @Path("/prefixes")
@@ -84,6 +87,7 @@ public class PrefixEndpoint {
       description = "Internal Server Error",
       content = @Content(schema = @Schema(
               implementation = APIResponseMsg.class)))
+  @SecuredEndpoint
   public Response create(
           @Valid PrefixRequestDto prefixRequestDto) {
 
@@ -122,6 +126,15 @@ public class PrefixEndpoint {
       description = "Internal Server Error",
       content = @Content(schema = @Schema(
               implementation = APIResponseMsg.class)))
+  @SecuredEndpoint(
+          params = {
+                  @ParamRef(
+                          param = "id",
+                          type = ParamType.PATH,
+                          referTo = PrefixResource.class
+                  )
+          }
+  )
   public Response update(
           @PathParam("id") int id,
           @Valid PrefixRequestDto prefixRequestDto) {
@@ -152,6 +165,7 @@ public class PrefixEndpoint {
       description = "Internal Server Error",
       content = @Content(schema = @Schema(
               implementation = APIResponseMsg.class)))
+  @SecuredEndpoint
   public Response getAllByPageAndSize(
       @DefaultValue("1") @Min(1)
       @QueryParam("page")
@@ -196,6 +210,15 @@ public class PrefixEndpoint {
       description = "Internal Server Error",
       content = @Content(schema = @Schema(
               implementation = APIResponseMsg.class)))
+  @SecuredEndpoint(
+          params = {
+                  @ParamRef(
+                          param = "id",
+                          type = ParamType.PATH,
+                          referTo = PrefixResource.class
+                  )
+          }
+  )
   public Response patch(
           @PathParam("id") int id,
           @Valid PartialPrefixDto prefixDto) {
@@ -232,6 +255,15 @@ public class PrefixEndpoint {
       responseCode = "500",
       description = "Internal Server Error",
       content = @Content(schema = @Schema(implementation = APIResponseMsg.class)))
+  @SecuredEndpoint(
+          params = {
+                  @ParamRef(
+                          param = "id",
+                          type = ParamType.PATH,
+                          referTo = PrefixResource.class
+                  )
+          }
+  )
   public Response deleteById(@PathParam("id") Integer id) {
 
     prefixService.deleteById(id);
@@ -266,6 +298,15 @@ public class PrefixEndpoint {
       responseCode = "500",
       description = "Internal Server Error",
       content = @Content(schema = @Schema(implementation = APIResponseMsg.class)))
+  @SecuredEndpoint(
+          params = {
+                  @ParamRef(
+                          param = "id",
+                          type = ParamType.PATH,
+                          referTo = PrefixResource.class
+                  )
+          }
+  )
   public Response getById(@PathParam("id") Integer id) {
 
     return Response.ok(prefixService.fetchById(id)).build();
@@ -289,6 +330,15 @@ public class PrefixEndpoint {
                   implementation = APIResponseMsg.class)))
   @APIResponse(responseCode = "404", description = "Prefix not found")
   @APIResponse(responseCode = "500", description = "Internal Server Error")
+  @SecuredEndpoint(
+          params = {
+                  @ParamRef(
+                          param = "id",
+                          type = ParamType.PATH,
+                          referTo = PrefixResource.class
+                  )
+          }
+  )
   public Response getPIDCountByPrefix(@PathParam("id") String id) {
 
     return Response.ok(statisticsService.getPIDCountByPrefixID(id)).build();
@@ -312,6 +362,15 @@ public class PrefixEndpoint {
                   implementation = APIResponseMsg.class)))
   @APIResponse(responseCode = "404", description = "Prefix not found")
   @APIResponse(responseCode = "500", description = "Internal Server Error")
+  @SecuredEndpoint(
+          params = {
+                  @ParamRef(
+                          param = "id",
+                          type = ParamType.PATH,
+                          referTo = PrefixResource.class
+                  )
+          }
+  )
   public Response getResolvablePIDCountByPrefix(@PathParam("id") String id) {
 
     return Response.ok(statisticsService.getResolvablePIDCountByPrefixID(id)).build();
@@ -338,6 +397,15 @@ public class PrefixEndpoint {
                   implementation = APIResponseMsg.class)))
   @APIResponse(responseCode = "404", description = "Prefix not found")
   @APIResponse(responseCode = "500", description = "Internal Server Error")
+  @SecuredEndpoint(
+          params = {
+                  @ParamRef(
+                          param = "id",
+                          type = ParamType.PATH,
+                          referTo = PrefixResource.class
+                  )
+          }
+  )
   public Response getStatisticsByPrefix(@PathParam("id") String id) {
 
     return Response.ok(statisticsService.getPrefixStatisticsByID(id)).build();
@@ -364,6 +432,15 @@ public class PrefixEndpoint {
                   implementation = APIResponseMsg.class)))
   @APIResponse(responseCode = "404", description = "Prefix not found")
   @APIResponse(responseCode = "500", description = "Internal Server Error")
+  @SecuredEndpoint(
+          params = {
+                  @ParamRef(
+                          param = "id",
+                          type = ParamType.PATH,
+                          referTo = PrefixResource.class
+                  )
+          }
+  )
   public Response setStatisticsByPrefix(
       @PathParam("id") String id, StatisticsRequestDto statisticsRequestDto) {
 
